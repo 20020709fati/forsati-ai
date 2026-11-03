@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فرصتي | البحث الذكي عن العمل</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f6;color:#20332e;}
+header{background:#075c4b;color:white;padding:22px 16px;}
+header h1{margin:0;font-size:27px}
+header p{margin-bottom:0;color:#d5eee6}
+.container{max-width:1000px;margin:auto;padding:18px}
+.card{background:white;padding:18px;border-radius:14px;margin-bottom:17px;box-shadow:0 3px 12px #00000009;}
+h2{font-size:19px;color:#075c4b}
+button{background:#087b60;color:white;border:0;padding:12px 17px;border-radius:9px;cursor:pointer;font-size:15px;}
+button:hover{background:#055943}
+input,select{padding:12px;border:1px solid #d5dfda;border-radius:8px;width:100%;margin:7px 0;background:white;}
+label{display:block;margin:12px 0}
+.specialties{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.specialties input{width:auto}
+.job{border:1px solid #e1eae5;padding:15px;border-radius:11px;margin-top:12px;background:#fafffe;}
+.job h3{margin-top:0;font-size:16px;color:#075c4b}
+.badge{display:inline-block;background:#e1f4ec;color:#087b60;padding:5px 9px;border-radius:6px;font-size:12px;margin:3px 2px;}
+.badge-city{background:#e8f0fe;color:#1a56db;}
+.badge-sector{background:#fef3c7;color:#92400e;}
+.match{color:#087b60;font-weight:bold;font-size:13px;}
+.job-count{color:#087b60;font-weight:bold;margin-bottom:10px;}
+footer{text-align:center;padding:25px;color:#788780}
+.apply-btn{background:#075c4b;color:white;border:0;padding:8px 14px;border-radius:7px;cursor:pointer;font-size:13px;margin-top:8px;}
+.apply-btn:hover{background:#044a3a}
+</style>
+</head>
+<body>
+<header>
+<h1>🇲🇦 فرصتي | FORSATI AI</h1>
+<p>منصتك الذكية للبحث عن فرص العمل في المغرب</p>
+</header>
+<main class="container">
+<div class="card">
+<h2>مرحباً بك في فرصتي 👋</h2>
+<p>ارفع سيرتك الذاتية واختر تخصصاتك لاكتشاف فرص العمل المناسبة.</p>
+</div>
+<div class="card">
+<h2>📄 سيرتي الذاتية</h2>
+<input type="file" id="cv" accept=".pdf,.doc,.docx">
+<p id="cvname">لم يتم اختيار أي ملف بعد.</p>
+</div>
+<div class="card">
+<h2>🎯 اختر تخصصاتك المهنية</h2>
+<div class="specialties" id="specialties">
+<label><input type="checkbox" value="Informatique"> الإعلاميات</label>
+<label><input type="checkbox" value="Génie industriel"> الهندسة الصناعية</label>
+<label><input type="checkbox" value="Génie civil"> الهندسة المدنية</label>
+<label><input type="checkbox" value="Comptabilité"> المحاسبة والمالية</label>
+<label><input type="checkbox" value="Maintenance"> الصيانة الصناعية</label>
+<label><input type="checkbox" value="Qualité"> الجودة والسلامة</label>
+<label><input type="checkbox" value="Logistique"> اللوجستيك</label>
+<label><input type="checkbox" value="Marketing"> التسويق والتجارة</label>
+<label><input type="checkbox" value="RH"> الموارد البشرية</label>
+<label><input type="checkbox" value="Électricité"> الكهرباء والطاقة</label>
+</div>
+<button onclick="searchJobs()">عرض العروض المناسبة</button>
+</div>
+<div class="card">
+<h2>🔎 البحث والتصفية</h2>
+<input id="keyword" placeholder="ابحث عن وظيفة أو تخصص...">
+<select id="city">
+<option value="">جميع المدن</option>
+<option>الدار البيضاء</option>
+<option>الرباط</option>
+<option>طنجة</option>
+<option>مراكش</option>
+<option>خريبكة</option>
+<option>بني ملال</option>
+<option>فاس</option>
+<option>أكادير</option>
+<option>وجدة</option>
+<option>المحمدية</option>
+<option>القنيطرة</option>
+<option>سلا</option>
+<option>تطوان</option>
+</select>
+<select id="sector">
+<option value="">جميع القطاعات</option>
+<option value="خاص">القطاع الخاص</option>
+<option value="عام">الوظيفة العمومية</option>
+</select>
+<button onclick="searchJobs()">بحث</button>
+</div>
+<div class="card">
+<h2>💼 عروض العمل</h2>
+<div id="job-count" class="job-count"></div>
+<div id="results"></div>
+</div>
+</main>
+<footer>فرصتي © 2026 — جميع الحقوق محفوظة</footer>
+<script>
+const jobs=[
+{title:"تقني صيانة صناعية",specialty:"Maintenance",city:"خريبكة",sector:"خاص",company:"OCP Group",salary:"4500-6000 درهم",date:"2026-11-01"},
+{title:"مهندس إنتاج",specialty:"Génie industriel",city:"الدار البيضاء",sector:"خاص",company:"Renault Maroc",salary:"8000-12000 درهم",date:"2026-11-02"},
+{title:"مطور ويب Full Stack",specialty:"Informatique",city:"الرباط",sector:"خاص",company:"Capgemini Maroc",salary:"7000-10000 درهم",date:"2026-11-03"},
+{title:"مباراة متصرف مالي",specialty:"Comptabilité",city:"الرباط",sector:"عام",company:"وزارة المالية",salary:"حسب السلم",date:"2026-10-30"},
+{title:"مسؤول الجودة",specialty:"Qualité",city:"طنجة",sector:"خاص",company:"Delphi Technologies",salary:"6000-8000 درهم",date:"2026-11-01"},
+{title:"مسؤول اللوجستيك",specialty:"Logistique",city:"مراكش",sector:"خاص",company:"Marsa Maroc",salary:"5500-7500 درهم",date:"2026-10-28"},
+{title:"مهندس الهندسة المدنية",specialty:"Génie civil",city:"الدار البيضاء",sector:"خاص",company:"Bouygues Maroc",salary:"9000-14000 درهم",date:"2026-11-02"},
+{title:"محاسب معتمد",specialty:"Comptabilité",city:"فاس",sector:"خاص",company:"Deloitte Maroc",salary:"6000-9000 درهم",date:"2026-10-29"},
+{title:"مطور تطبيقات موبايل",specialty:"Informatique",city:"الدار البيضاء",sector:"خاص",company:"Inwi",salary:"8000-12000 درهم",date:"2026-11-03"},
+{title:"مسؤول التسويق الرقمي",specialty:"Marketing",city:"الرباط",sector:"خاص",company:"Maroc Telecom",salary:"6500-9000 درهم",date:"2026-11-01"},
+{title:"تقني كهربائي",specialty:"Électricité",city:"أكادير",sector:"خاص",company:"ONEE",salary:"4000-6000 درهم",date:"2026-10-31"},
+{title:"مسؤول الموارد البشرية",specialty:"RH",city:"طنجة",sector:"خاص",company:"Yazaki Maroc",salary:"5500-7000 درهم",date:"2026-11-02"},
+{title:"مهندس ميكانيك",specialty:"Génie industriel",city:"طنجة",sector:"خاص",company:"Stellantis Maroc",salary:"9000-13000 درهم",date:"2026-11-01"},
+{title:"محلل بيانات",specialty:"Informatique",city:"الرباط",sector:"خاص",company:"HPS",salary:"7500-11000 درهم",date:"2026-11-03"},
+{title:"مراقب الجودة",specialty:"Qualité",city:"خريبكة",sector:"خاص",company:"OCP Group",salary:"5000-7000 درهم",date:"2026-10-30"},
+{title:"مسؤول المشتريات",specialty:"Logistique",city:"الدار البيضاء",sector:"خاص",company:"Label Vie",salary:"6000-8000 درهم",date:"2026-11-02"},
+{title:"مهندس البنية التحتية",specialty:"Génie civil",city:"الرباط",sector:"عام",company:"وزارة التجهيز",salary:"حسب السلم",date:"2026-10-28"},
+{title:"مدير مبيعات",specialty:"Marketing",city:"الدار البيضاء",sector:"خاص",company:"Nestlé Maroc",salary:"10000-15000 درهم",date:"2026-11-01"},
+{title:"تقني صيانة كهربائية",specialty:"Électricité",city:"بني ملال",sector:"خاص",company:"Lafarge Maroc",salary:"4500-6500 درهم",date:"2026-10-31"},
+{title:"مسؤول تكوين الموارد البشرية",specialty:"RH",city:"الدار البيضاء",sector:"خاص",company:"Attijariwafa Bank",salary:"6000-8500 درهم",date:"2026-11-02"},
+{title:"مطور Backend Python",specialty:"Informatique",city:"طنجة",sector:"خاص",company:"Accenture Maroc",salary:"8500-13000 درهم",date:"2026-11-03"},
+{title:"مهندس ميكاترونيك",specialty:"Maintenance",city:"الدار البيضاء",sector:"خاص",company:"Safran Maroc",salary:"9000-13000 درهم",date:"2026-11-01"},
+{title:"مختص في الإجراءات الجمركية",specialty:"Logistique",city:"طنجة",sector:"خاص",company:"DHL Maroc",salary:"5000-7000 درهم",date:"2026-10-30"},
+{title:"محاسب عام",specialty:"Comptabilité",city:"مراكش",sector:"خاص",company:"Sofitel Maroc",salary:"5500-7500 درهم",date:"2026-11-02"},
+{title:"مهندس شبكات",specialty:"Informatique",city:"الرباط",sector:"خاص",company:"Maroc Telecom",salary:"8000-11000 درهم",date:"2026-11-01"},
+];
+
+document.getElementById("cv").addEventListener("change",function(){
+const file=this.files[0];
+if(file) document.getElementById("cvname").textContent="تم اختيار الملف: "+file.name;
+});
+
+function searchJobs(){
+const selected=[...document.querySelectorAll('#specialties input:checked')].map(x=>x.value);
+const keyword=document.getElementById("keyword").value.trim().toLowerCase();
+const city=document.getElementById("city").value;
+const sector=document.getElementById("sector").value;
+
+let filtered=jobs.filter(j=>{
+const matchSpec=selected.length===0||selected.includes(j.specialty);
+const matchKey=!keyword||j.title.toLowerCase().includes(keyword)||j.specialty.toLowerCase().includes(keyword)||j.company.toLowerCase().includes(keyword);
+const matchCity=!city||j.city===city;
+const matchSector=!sector||j.sector===sector;
+return matchSpec&&matchKey&&matchCity&&matchSector;
+});
+
+const countEl=document.getElementById("job-count");
+countEl.textContent=`تم العثور على ${filtered.length} عرض عمل`;
+
+const results=document.getElementById("results");
+if(filtered.length===0){
+results.innerHTML='<p style="color:#788780;text-align:center;padding:20px;">لا توجد عروض مطابقة لبحثك حالياً.</p>';
+return;
+}
+
+results.innerHTML=filtered.map(j=>`
+<div class="job">
+<h3>${j.title}</h3>
+<p style="margin:5px 0;font-size:14px;color:#444;">🏢 ${j.company}</p>
+<span class="badge badge-city">📍 ${j.city}</span>
+<span class="badge badge-sector">🏛️ ${j.sector==='عام'?'وظيفة عمومية':'قطاع خاص'}</span>
+<span class="badge">💰 ${j.salary}</span>
+<span class="badge" style="background:#f0f0f0;color:#555;">📅 ${j.date}</span>
+<br>
+<button class="apply-btn" onclick="alert('سيتم ربط التقديم بقريباً!')">تقدم للوظيفة ←</button>
+</div>
+`).join('');
+}
+
+searchJobs();
+</script>
+</body>
+</html>
